@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title> Live Stock Markets</title>
+	<link rel="stylesheet" href="">
+	<link rel="stylesheet" href="bootstrap-3.2.0-dist/css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/main.css">
+	<link href='http://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
+
+	<script src="//code.jquery.com/jquery-2.1.1.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="bootstrap-3.2.0-dist/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+</head>
+<body>
+	
+	<h1> Stock Analyzer </h1>
+	<div class="right-inner-addon">
+    	<i class="glyphicon glyphicon-search"></i>
+    	<input type="search"
+           class="form-control" id="searchStockKeyCode" 
+           placeholder="Search" title="Press Enter" />
+	</div>
+
+	<section>
+		<p> Symbol: <strong><span class="symbol"></span></strong></p>
+		<p> Company: <strong><span class="companyName"></span></strong></p>
+		<p> Last Updated Time Stamp: <strong><span class="updatedTimeStamp"></span></strong></p>
+		<p> Closing Price on Previous Day: <strong><span class="previousClose"></span></strong></p>
+		<p> Opening Price Today: <strong><span class="openingPrice"></span></strong></p>
+		<p> Last Price Today as per the TimeStamp: <strong><span class="lastPrice"></span></strong></p>
+		<p> Today's Highest Price: <strong><span class="highestPrice"></span></strong></p>
+		<p> Average Price: <strong><span class="averagePrice"></span></strong></p>
+		<p> Buy Price1: <strong><span class="buyPrice1"></span></strong></p>
+		<p> Closing Price Today: <strong><span class="closePrice"></span></strong></p>
+		<p> ISIN Code: <strong><span class="isinCode"></span></strong></p>
+	</section>
+
+	<script>
+		$('section').hide();
+		$('input[type=search]').on('keyup',function(e){
+			if(e.which == 13 || e.keyCode == 13){
+				e.preventDefault();
+				var stockName = $('input[type=search]').val();
+				$('section').fadeTo('fast',0);
+		  		$('section').fadeTo('slow', 1);
+
+		  	$.post('/stocknow/',{
+		  			data:{
+		  				stockname:stockName
+		  			}
+		  	},function(response) {
+		  			//newData = JSON.stringify(data)
+		  			console.log(response);
+
+		  			if(response.length<1){
+		  				$('section').html("Invalid Symbol");
+		  			}
+		  			// var incoming = JSON.stringify(response);
+		  			// incoming.replace('data','details');
+
+		  			// var finalDetails = JSON.parse(incoming);
+		  			// console.log(finalDetails);
+
+		  			$('.symbol').html(response.data[0].symbol);
+		  			$('.companyName').html(response.data[0].companyName);
+		  			$('.previousClose').html("INR "+response.data[0].previousClose);
+		  			$('.openingPrice').html("INR "+response.data[0].open);
+		  			$('.lastPrice').html("INR "+response.data[0].lastPrice);
+		  			$('.highestPrice').html("INR "+response.data[0].dayHigh);
+		  			$('.averagePrice').html("INR "+response.data[0].averagePrice);
+		  			$('.buyPrice1').html("INR "+response.data[0].buyPrice1);
+		  			$('.closePrice').html("INR "+response.data[0].closePrice);
+		  			$('.isinCode').html(response.data[0].isinCode);
+		  			$('.updatedTimeStamp').html(response.lastUpdateTime);
+					//var details = JSON.(data);
+					// console.log(details);
+			  }
+			);
+		  }
+		});
+
+	</script>
+
+</body>
+</html>

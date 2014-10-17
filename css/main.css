@@ -1,0 +1,24 @@
+h1{
+	font-family: 'Raleway', sans-serif;
+	text-align: center;
+	font-size: 80px;
+}
+
+#searchStockKeyCode{
+	margin:4% auto;
+	width: 60%;
+}
+
+.right-inner-addon i {
+    position: absolute;
+    right: 0px;
+    padding: 12.5% 21%;
+    /*pointer-events: none;*/
+}
+
+section{
+	margin:0 auto;
+	width: 60%;
+	height: 400px;
+	text-align: left;
+}

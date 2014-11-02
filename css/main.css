@@ -19,6 +19,32 @@ h1{
 section{
 	margin:0 auto;
 	width: 60%;
-	height: 400px;
+	height: 300px;
 	text-align: left;
+	height:300px;
+}
+
+footer{
+	clear: both;
+	padding-top: 1%;
+	position: static;
+	text-align: center;
+	width: 60%;
+	/*bottom: 5%; */	
+	margin: 0 auto;
+	font-family: Raleway, sans-serif;
+	font-size: 16px;
+}
+
+.canvasCharts{
+	width: 59%;
+	height: 330px;
+	margin: 0 auto;
+	float: left;
+}
+
+.detailsStock{
+	margin: 0 auto;
+	float: left;
+	width:39%;
 }

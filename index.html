@@ -7,10 +7,14 @@
 	<link rel="stylesheet" href="">
 	<link rel="stylesheet" href="bootstrap-3.2.0-dist/css/bootstrap.min.css">
 	<link rel="stylesheet" href="css/main.css">
+	<link rel="stylesheet" href="css/popbox.css">
 	<link href='http://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
 
 	<script src="//code.jquery.com/jquery-2.1.1.min.js" type="text/javascript" charset="utf-8"></script>
 	<script src="bootstrap-3.2.0-dist/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+	
+	<script src="//code.highcharts.com/highcharts.js"></script>
+    <script src="//code.highcharts.com/modules/exporting.js"></script>
 </head>
 <body>
 	
@@ -23,6 +27,7 @@
 	</div>
 
 	<section>
+	   <div class="detailsStock">
 		<p> Symbol: <strong><span class="symbol"></span></strong></p>
 		<p> Company: <strong><span class="companyName"></span></strong></p>
 		<p> Last Updated Time Stamp: <strong><span class="updatedTimeStamp"></span></strong></p>
@@ -33,54 +38,31 @@
 		<p> Average Price: <strong><span class="averagePrice"></span></strong></p>
 		<p> Buy Price1: <strong><span class="buyPrice1"></span></strong></p>
 		<p> Closing Price Today: <strong><span class="closePrice"></span></strong></p>
-		<p> ISIN Code: <strong><span class="isinCode"></span></strong></p>
+		<p> ISIN Code: <strong><span class="isinCode"></span></strong></p>	
+	   </div>
+
+	    <div class="canvasCharts"></div>
 	</section>
 
-	<script>
-		$('section').hide();
-		$('input[type=search]').on('keyup',function(e){
-			if(e.which == 13 || e.keyCode == 13){
-				e.preventDefault();
-				var stockName = $('input[type=search]').val();
-				$('section').fadeTo('fast',0);
-		  		$('section').fadeTo('slow', 1);
+	<footer>
+		<hr>
+		<p> &#169; Chinmay Rane - 2014 &#124; &#9829; Javascript </p> 	
+	</footer>
 
-		  	$.post('/stocknow/',{
-		  			data:{
-		  				stockname:stockName
-		  			}
-		  	},function(response) {
-		  			//newData = JSON.stringify(data)
-		  			console.log(response);
+	<div id="lightbox" class="lightbox" style="display: block;left: 0px;" hidden>
+		  <div class="lb-outerContainer" style="width: 458px; height:308 px;" hidden>
+		  <div class="wrapperNic">
+		   <div class="lb-container">
+		    	<div class="lb-closeNow"> X </div> 
+		   </div>
 
-		  			if(response.length<1){
-		  				$('section').html("Invalid Symbol");
-		  			}
-		  			// var incoming = JSON.stringify(response);
-		  			// incoming.replace('data','details');
+		   		<div class="contentContainer">
+		       		<p class="popUpContent"> Invalid Symbol, please Check the NIFTY List</p>
+		    	<div>
+		  </div>
+		  </div>
+		</div>
 
-		  			// var finalDetails = JSON.parse(incoming);
-		  			// console.log(finalDetails);
-
-		  			$('.symbol').html(response.data[0].symbol);
-		  			$('.companyName').html(response.data[0].companyName);
-		  			$('.previousClose').html("INR "+response.data[0].previousClose);
-		  			$('.openingPrice').html("INR "+response.data[0].open);
-		  			$('.lastPrice').html("INR "+response.data[0].lastPrice);
-		  			$('.highestPrice').html("INR "+response.data[0].dayHigh);
-		  			$('.averagePrice').html("INR "+response.data[0].averagePrice);
-		  			$('.buyPrice1').html("INR "+response.data[0].buyPrice1);
-		  			$('.closePrice').html("INR "+response.data[0].closePrice);
-		  			$('.isinCode').html(response.data[0].isinCode);
-		  			$('.updatedTimeStamp').html(response.lastUpdateTime);
-					//var details = JSON.(data);
-					// console.log(details);
-			  }
-			);
-		  }
-		});
-
-	</script>
-
+	<script src="js/popbox.js" charset="utf-8" ></script>	
 </body>
 </html>

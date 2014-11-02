@@ -26,6 +26,10 @@ var router =express.Router();
 
 	router.post('/stocknow', function(request,response){
 		var stockName = request.body.data.stockname;
+		console.log(stockName);
+
+		if(stockName && stockName.length>0){
+		console.log("Am inside the loop");
 	    var options = {
 	    	host:'www.nseindia.com',
 	    	method: 'GET',
@@ -42,17 +46,24 @@ var router =express.Router();
 	    var req = http.request(options, function(res){
 	    		res.on('error', function(e){
 	    			console.log('Got Error:'+ e.message);
+	    			response.end(invalidRequest(),400);
 	    		});
 
 	    		res.on('data', function(data){
 	    			stockData+=data;
+	    			console.log("On DATA" + stockData);
 	    		});
 
 	    		res.on('end', function() {
 					stockData = stockData.trim();
 					data = JSON.parse(stockData);
-					console.log(data);
+					console.log("On END" + stockData);
 	    		
+		    		if(data.data.length < 1){
+		    			console.log("Error:");
+		    			response.send('Error');
+		    			return;
+		    		}
 
 	    		// Cleaning up the feeds
 				delete data.otherSeries;
@@ -63,16 +74,23 @@ var router =express.Router();
 				response.send(data);
 
 				});
+
+
 		});
 
 		req.end();
+	}else{
+		response.end(invalidrequest(),400)
+	}
 });
 
 
 app.use('/',router);
 app.use('/stocknow',router);
 
-
+function invalidRequest() {
+	return "<h1>INVALID REQUEST</h1>";
+}
 
 // app.set('views',__dirname+'/views');
 app.set('view engine', 'ejs');
